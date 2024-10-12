@@ -126,7 +126,7 @@
 
     <script>
         // Form Validation and Submission
-        document.getElementById('wellbeingForm').addEventListener('submit', function(event) {
+        document.getElementById('wellbeingForm').addEventListener('submit', function (event) {
             event.preventDefault();
 
             const name = document.getElementById('name').value;
@@ -155,15 +155,15 @@
                         }
                     })
                 })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Success:', data);
-                    alert("Form submitted successfully!");
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert("There was an error submitting the form.");
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                        alert("Form submitted successfully!");
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert("There was an error submitting the form.");
+                    });
             } else {
                 alert("Please give consent before submitting.");
             }
