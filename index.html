@@ -4,19 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wellbeing Review Request Form</title>
+
+    <!-- Inline CSS for Styling the Form -->
     <style>
+        /* Global styles for body */
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Century Gothic", Arial, sans-serif; /* Changed to Century Gothic */
             margin: 20px;
             padding: 0;
             background-color: #f4f4f9;
         }
 
+        /* Styling for headings */
         h1 {
             text-align: center;
-            font-size: 24px;
+            font-size: 28px; /* Adjusted the font size */
+            font-weight: bold;
         }
 
+        /* Main form container */
         form {
             max-width: 600px;
             margin: 0 auto;
@@ -26,11 +32,15 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
+        /* Labels for the form fields */
         label {
             display: block;
             margin: 10px 0 5px;
+            font-size: 18px;
+            font-weight: bold;
         }
 
+        /* Styling for text input, email, tel, and textarea */
         input[type="text"],
         input[type="email"],
         input[type="tel"],
@@ -43,18 +53,22 @@
             font-size: 16px;
         }
 
+        /* Checkbox styling */
         .checkbox-group {
             margin: 10px 0;
         }
 
+        /* Checkbox input style */
         input[type="checkbox"] {
             margin-right: 10px;
         }
 
+        /* Mark required fields with red */
         .required {
             color: red;
         }
 
+        /* Button styling */
         button {
             display: block;
             width: 100%;
@@ -64,11 +78,43 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s ease; /* Added hover transition */
         }
 
+            /* Button hover effect */
             button:hover {
                 background-color: #4cae4c;
             }
+
+        /* Style the "Other" contact method field */
+        #otherContact {
+            display: none; /* Hide initially */
+            font-size: 16px;
+        }
+
+        /* Responsive design for mobile devices */
+        @media (max-width: 600px) {
+            form {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            textarea {
+                font-size: 14px;
+            }
+
+            button {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -124,11 +170,18 @@
         <button type="submit">Submit</button>
     </form>
 
+    <!-- JavaScript Section -->
     <script>
+        // Event listener to dynamically show "Other" contact method text area
+        document.querySelector('input[value="Other"]').addEventListener('change', function () {
+            document.getElementById('otherContact').style.display = this.checked ? 'block' : 'none';
+        });
+
         // Form Validation and Submission
         document.getElementById('wellbeingForm').addEventListener('submit', function (event) {
-            event.preventDefault();
+            event.preventDefault(); // Prevent form from submitting the usual way
 
+            // Capture form field values
             const name = document.getElementById('name').value;
             const partnerName = document.getElementById('partnerName').value;
             const email = document.getElementById('email').value;
@@ -136,6 +189,7 @@
             const phone = document.getElementById('phone').value;
             const consent = document.getElementById('consent').checked;
 
+            // Check if consent is given
             if (consent) {
                 // Send Data to Airtable via API
                 fetch('https://api.airtable.com/v0/YOUR_BASE_ID/YOUR_TABLE_NAME', {
@@ -165,6 +219,7 @@
                         alert("There was an error submitting the form.");
                     });
             } else {
+                // Alert if the consent checkbox is not checked
                 alert("Please give consent before submitting.");
             }
         });
