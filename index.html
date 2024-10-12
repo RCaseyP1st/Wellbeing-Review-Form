@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellbeing Review Request Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .checkbox-group {
+            margin: 10px 0;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .required {
+            color: red;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #4cae4c;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- Form Title -->
+    <img src="your_image_url_here" alt="Form Image" width="658" height="594">
+    <h1>Wellbeing Review Request Form</h1>
+
+    <!-- Form Structure -->
+    <form id="wellbeingForm">
+
+        <!-- Name Field -->
+        <label for="name">Name: <span class="required">*</span></label>
+        <input type="text" id="name" name="name" required>
+
+        <!-- Partner's Name Field -->
+        <label for="partnerName">Partner's Name: <span class="required">*</span></label>
+        <input type="text" id="partnerName" name="partnerName" required>
+
+        <!-- Email Field -->
+        <label for="email">Email Address: <span class="required">*</span></label>
+        <input type="email" id="email" name="email" required>
+
+        <!-- Postcode Field -->
+        <label for="postcode">Postcode: <span class="required">*</span></label>
+        <input type="text" id="postcode" name="postcode" required>
+
+        <!-- Phone Number Field -->
+        <label for="phone">Phone Number: <span class="required">*</span></label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <!-- Preferred Method of Contact -->
+        <label>Preferred Method of Contact:</label>
+        <div class="checkbox-group">
+            <input type="checkbox" name="contactMethod" value="Phone Call"> Phone Call
+            <input type="checkbox" name="contactMethod" value="Microsoft Teams"> Microsoft Teams
+            <input type="checkbox" name="contactMethod" value="Zoom"> Zoom
+            <input type="checkbox" name="contactMethod" value="Other"> Other (Please specify)
+        </div>
+        <textarea id="otherContact" placeholder="If other, please specify"></textarea>
+
+        <!-- Consent Statement -->
+        <p><strong>Consent Statement:</strong></p>
+        <p>
+            Are you happy for us to store the information we may talk about? ...
+            [Insert consent statement here from your provided text]
+        </p>
+
+        <!-- Consent Checkbox -->
+        <label><input type="checkbox" id="consent" name="consent" required> I give consent <span class="required">*</span></label>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        // Form Validation and Submission
+        document.getElementById('wellbeingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const partnerName = document.getElementById('partnerName').value;
+            const email = document.getElementById('email').value;
+            const postcode = document.getElementById('postcode').value;
+            const phone = document.getElementById('phone').value;
+            const consent = document.getElementById('consent').checked;
+
+            if (consent) {
+                // Send Data to Airtable via API
+                fetch('https://api.airtable.com/v0/YOUR_BASE_ID/YOUR_TABLE_NAME', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer YOUR_API_KEY',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fields: {
+                            'Name': name,
+                            'Partner Name': partnerName,
+                            'Email': email,
+                            'Postcode': postcode,
+                            'Phone': phone,
+                            'Consent': consent
+                        }
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    alert("Form submitted successfully!");
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("There was an error submitting the form.");
+                });
+            } else {
+                alert("Please give consent before submitting.");
+            }
+        });
+    </script>
+
+</body>
+</html>
