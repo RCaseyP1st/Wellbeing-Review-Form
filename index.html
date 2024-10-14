@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wellbeing Review Request Form</title>
 
-    <!-- Inline CSS for Styling the Form -->
     <style>
+        /* Global styles for body */
         body {
             font-family: "Century Gothic", Arial, sans-serif;
             margin: 20px;
@@ -75,27 +75,26 @@
             font-size: 16px;
         }
 
-        /* Placeholder styling */
-        ::placeholder {
-            font-style: italic;
-            color: #888;
-        }
-
-        /* Tooltip style */
-        label span.tooltip {
-            display: inline-block;
-            border-bottom: 1px dotted #000;
-            cursor: help;
-            font-size: 12px;
-            color: #0392A2;
-        }
-
         /* Checkbox styling */
         .checkbox-group {
             margin: 10px 0;
         }
 
-        /* Checkbox input style */
+            /* Style for each checkbox option with background shading */
+            .checkbox-group label {
+                display: block;
+                background-color: #f1f1f1;
+                padding: 10px;
+                margin: 5px 0;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+                .checkbox-group label:hover {
+                    background-color: #e0e0e0;
+                }
+
         input[type="checkbox"] {
             margin-right: 10px;
         }
@@ -103,22 +102,6 @@
         /* Mark required fields with red */
         .required {
             color: red;
-        }
-
-        /* Error message styling */
-        .error {
-            color: red;
-            font-size: 14px;
-            margin-bottom: 10px;
-            display: none; /* Hidden by default */
-        }
-
-        /* Success message styling */
-        .success {
-            color: green;
-            font-size: 16px;
-            margin-bottom: 10px;
-            display: none;
         }
 
         /* Button styling */
@@ -139,26 +122,6 @@
             button:hover {
                 background-color: #b06b1a;
             }
-
-        /* Style the "Other" contact method field */
-        #otherContact {
-            display: none;
-            font-size: 16px;
-        }
-
-        /* Consent statement styling */
-        p.consent {
-            font-size: 12px;
-            font-style: italic;
-            color: #333;
-            line-height: 1.5;
-        }
-
-        /* Hyperlink styling */
-        a {
-            color: #0392A2;
-            text-decoration: underline;
-        }
 
         /* Responsive design for mobile devices */
         @media (max-width: 600px) {
@@ -198,44 +161,47 @@
     <!-- Form Title -->
     <h1>Wellbeing Review Request Form</h1>
 
-    <!-- Error and Success messages -->
+    <!-- Error message -->
     <div class="error" id="error-message"></div>
-    <div class="success" id="success-message">Form submitted successfully!</div>
 
     <!-- Form Structure -->
     <form id="wellbeingForm">
 
         <!-- Name Field -->
-        <label for="name">Name: <span class="required">*</span> <span class="tooltip" title="Your name">?</span></label>
+        <label for="name">Name: <span class="required">*</span></label>
         <input type="text" id="name" name="name" placeholder="Your Name" required>
 
         <!-- Partner's Name Field -->
-        <label for="partnerName">Partner's Name: <span class="required">*</span> <span class="tooltip" title="Your pregnant partner's name for eligibility purposes">?</span></label>
+        <label for="partnerName">Partner's Name: <span class="required">*</span></label>
         <input type="text" id="partnerName" name="partnerName" placeholder="Your Partner's Name" required>
 
         <!-- Email Field -->
-        <label for="email">Email Address: <span class="tooltip" title="Used for Teams/Zoom calls and forwarding useful information">?</span></label>
+        <label for="email">Email Address:</label>
         <input type="email" id="email" name="email" placeholder="Your Email Address">
 
         <!-- Postcode Field -->
-        <label for="postcode">Postcode: <span class="required">*</span> <span class="tooltip" title="Used to find the nearest resources to you">?</span></label>
+        <label for="postcode">Postcode: <span class="required">*</span></label>
         <input type="text" id="postcode" name="postcode" placeholder="Your Postcode" required>
 
         <!-- Phone Number Field -->
-        <label for="phone">Phone Number: <span class="tooltip" title="Used for telephone calls/Text Messages (if specified)">?</span></label>
+        <label for="phone">Phone Number:</label>
         <input type="tel" id="phone" name="phone" placeholder="Your Phone Number">
 
         <!-- Preferred Method of Contact -->
         <label>Preferred Method of Contact:</label>
+        <p>You can select more than 1 option</p>
         <div class="checkbox-group">
-            <input type="checkbox" name="contactMethod" value="Phone Call"> Phone Call
-            <input type="checkbox" name="contactMethod" value="Microsoft Teams"> Microsoft Teams
-            <input type="checkbox" name="contactMethod" value="Zoom"> Zoom
-            <input type="checkbox" name="contactMethod" value="Other"> Other (Please specify)
+            <label><input type="checkbox" name="contactMethod" value="Phone Call"> Phone Call</label>
+            <label><input type="checkbox" name="contactMethod" value="Microsoft Teams"> Microsoft Teams</label>
+            <label><input type="checkbox" name="contactMethod" value="Zoom"> Zoom</label>
+            <label><input type="checkbox" name="contactMethod" value="Other"> Other (Please specify)</label>
         </div>
         <textarea id="otherContact" placeholder="e.g., Text Messages (SMS) or WhatsApp"></textarea>
 
         <!-- Consent Statement -->
+        <p><strong>Consent Statement:</strong></p>
+        <p class="consent">
+            <!-- Consent Statement -->
         <p><strong>Consent Statement:</strong></p>
         <p class="consent">
             Are you happy for us to store the information we may talk about? We will look after any personal information that is shared with us.
@@ -276,65 +242,6 @@
         <!-- Submit Button -->
         <button type="submit">Submit</button>
     </form>
-
-    <!-- JavaScript Section -->
-    <script>
-        document.getElementById('wellbeingForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent form submission
-            const errorMessage = document.getElementById('error-message');
-            const successMessage = document.getElementById('success-message');
-            errorMessage.style.display = 'none'; // Hide previous error
-            successMessage.style.display = 'none'; // Hide previous success
-
-            const name = document.getElementById('name').value;
-            const partnerName = document.getElementById('partnerName').value;
-            const email = document.getElementById('email').value;
-            const postcode = document.getElementById('postcode').value;
-            const phone = document.getElementById('phone').value;
-            const consent = document.getElementById('consent').checked;
-
-            // Capture selected contact methods
-            const contactMethods = document.querySelectorAll('input[name="contactMethod"]:checked');
-            let selectedMethods = [];
-            contactMethods.forEach((method) => {
-                selectedMethods.push(method.value);
-            });
-
-            // Validation logic
-            if (selectedMethods.includes('Phone Call') || selectedMethods.includes('Other')) {
-                if (!phone) {
-                    errorMessage.innerHTML = "If your preferred method is Phone call or Other, a valid phone number is required.";
-                    errorMessage.style.display = 'block';
-                    document.getElementById('phone').focus();
-                    return;
-                }
-            }
-
-            if (selectedMethods.includes('Microsoft Teams') || selectedMethods.includes('Zoom')) {
-                if (!email) {
-                    errorMessage.innerHTML = "If your preferred method is Teams or Zoom, a valid email address is required.";
-                    errorMessage.style.display = 'block';
-                    document.getElementById('email').focus();
-                    return;
-                }
-            }
-
-            if (!email && !phone) {
-                errorMessage.innerHTML = "Please provide either an email or phone number.";
-                errorMessage.style.display = 'block';
-                return;
-            }
-
-            if (consent) {
-                // Here you'd add the Airtable API submission logic
-                successMessage.style.display = 'block'; // Show success message
-            } else {
-                errorMessage.innerHTML = "Please give consent before submitting.";
-                errorMessage.style.display = 'block';
-                document.getElementById('consent').focus();
-            }
-        });
-    </script>
 
 </body>
 </html>
