@@ -14,36 +14,26 @@
             background-color: #f4f4f9;
         }
 
-        /* Flexbox container for logos */
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-            /* Styling for both logos */
-            .logo-container img {
-                max-width: 100%;
-                height: auto;
-                object-fit: contain;
-            }
-
-        .logo {
-            width: 45%;
-            max-width: 300px;
-            margin: 0 10px;
+        /* Centered pre-screening section */
+        #prescreening {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         /* Styling for headings (title) */
-        h1 {
+        h1, h2 {
             text-align: center;
             font-size: 28px;
             font-weight: bold;
             color: #0392A2;
         }
 
-        /* Main form container */
+        /* Form container */
         form {
             max-width: 600px;
             margin: 0 auto;
@@ -62,7 +52,41 @@
             color: #0392A2;
         }
 
-        /* Styling for text input, email, tel, and textarea */
+        /* Error message styling */
+        .error {
+            color: black;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: none; /* Hidden by default */
+            text-align: center;
+        }
+
+            /* Custom error message styling with stars */
+            .error span {
+                font-weight: bold;
+                color: red;
+            }
+
+        /* Center the button in pre-screening */
+        #prescreening button {
+            width: auto;
+            padding: 10px 40px;
+            background-color: #D78223;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        button:hover {
+            background-color: #b06b1a;
+        }
+
+        /* Text input fields */
         input[type="text"],
         input[type="email"],
         input[type="tel"],
@@ -76,27 +100,28 @@
             box-sizing: border-box;
         }
 
-        /* Error message styling */
-        .error {
-            color: red;
-            font-size: 14px;
-            margin-bottom: 10px;
-            display: none; /* Hidden by default */
-            text-align: center;
+        /* Consent statement styling */
+        .consent {
+            font-size: 12px;
+            font-style: italic;
+            color: #333;
         }
 
-            /* Custom error message styling with stars */
-            .error span {
-                font-weight: bold;
-                color: red;
+        /* Success message styling */
+        .success-message {
+            text-align: center;
+            padding: 20px;
+        }
+
+            .success-message h1 {
+                color: #0392A2;
             }
 
-        /* Checkbox styling */
+        /* Checkbox styles */
         .checkbox-group {
             margin: 10px 0;
         }
 
-            /* Style for each checkbox option with background shading */
             .checkbox-group label {
                 display: block;
                 background-color: #f1f1f1;
@@ -111,45 +136,12 @@
                     background-color: #e0e0e0;
                 }
 
-        input[type="checkbox"] {
-            margin-right: 10px;
+        /* Hide the "Other" contact method textarea initially */
+        #otherContact {
+            display: none;
         }
 
-        /* Mark required fields with red */
-        .required {
-            color: red;
-        }
-
-        /* Button styling */
-        button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #D78223;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-
-            button:hover {
-                background-color: #b06b1a;
-            }
-
-        /* Success message styling */
-        .success-message {
-            text-align: center;
-            padding: 20px;
-        }
-
-            .success-message h1 {
-                color: #0392A2;
-            }
-
-        /* Responsive design for mobile devices */
+        /* Responsive design for mobile */
         @media (max-width: 600px) {
             form {
                 padding: 10px;
@@ -183,17 +175,13 @@
         <h2>Eligibility Confirmation</h2>
         <p>Please confirm that your partner is currently pregnant and under the care of EPUT.</p>
         <label><input type="checkbox" id="eligibility" name="eligibility" required> I confirm</label>
+        <p></p>
         <button type="button" onclick="showForm()">Continue</button>
+        <div class="error" id="prescreening-error"></div>
     </div>
 
     <!-- Main Form Section (Initially Hidden) -->
     <div id="form-container" style="display:none;">
-        <!-- Logo Section -->
-        <div class="logo-container">
-            <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/0ZpzuRHRXvVLxGe06x90smrbd7iaTr8sN7GzfW88.png" alt="Parents 1st Essex Logo" class="logo">
-            <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/OHHLogoHoizontal.png" alt="Other Half Hub Logo" class="logo">
-        </div>
-
         <!-- Form Title -->
         <h1>Wellbeing Review Request Form</h1>
 
@@ -226,7 +214,7 @@
                 <label><input type="checkbox" name="contactMethod" value="Phone Call"> Phone Call</label>
                 <label><input type="checkbox" name="contactMethod" value="Microsoft Teams"> Microsoft Teams</label>
                 <label><input type="checkbox" name="contactMethod" value="Zoom"> Zoom</label>
-                <label><input type="checkbox" name="contactMethod" value="Other"> Other (Please specify)</label>
+                <label><input type="checkbox" name="contactMethod" value="Other" id="otherCheckbox"> Other (Please specify)</label>
             </div>
             <textarea id="otherContact" placeholder="e.g., Text Messages (SMS) or WhatsApp"></textarea>
 
@@ -262,9 +250,7 @@
                 </a> <br><br>
 
                 Please confirm that you understand how the information you have given us will be used, shared, and stored by us and that you give your consent for this by checking the box below.
-            </p>
 
-            <!-- Consent text -->
             </p>
 
             <!-- Consent Checkbox -->
@@ -280,15 +266,27 @@
         // Pre-screening logic
         function showForm() {
             const eligibility = document.getElementById('eligibility').checked;
+            const errorMessage = document.getElementById('prescreening-error');
             if (eligibility) {
                 document.getElementById('prescreening').style.display = 'none';
                 document.getElementById('form-container').style.display = 'block';
             } else {
-                alert("Please confirm that your partner is currently pregnant and under the care of EPUT.");
+                errorMessage.innerHTML = `<span>*</span> Please confirm that your partner is currently pregnant and under the care of EPUT. <span>*</span>`;
+                errorMessage.style.display = 'block';
             }
         }
 
-        // Form submission logic with enhanced error messages
+        // Handle "Other" contact method display
+        document.getElementById('otherCheckbox').addEventListener('change', function () {
+            const otherContact = document.getElementById('otherContact');
+            if (this.checked) {
+                otherContact.style.display = 'block';
+            } else {
+                otherContact.style.display = 'none';
+            }
+        });
+
+        // Form validation and submission
         document.getElementById('wellbeingForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent form submission
             const errorMessage = document.getElementById('error-message');
@@ -355,11 +353,11 @@
         function showSuccessMessage() {
             const form = document.getElementById('wellbeingForm');
             form.innerHTML = `
-                    <div class="success-message">
-                        <h1>Thank You!</h1>
-                        <p>Your form has been submitted successfully.</p>
-                        <p>If you provided an email address, you will receive a confirmation email shortly. Otherwise, our Fathers & Partners Wellbeing coordinator will contact you within 7 days via your selected preferred method of contact.</p>
-                    </div>`;
+                        <div class="success-message">
+                            <h1>Thank You!</h1>
+                            <p>Your form has been submitted successfully.</p>
+                            <p>If you provided an email address, you will receive a confirmation email shortly. Otherwise, our Fathers & Partners Wellbeing coordinator will contact you within 7 days via your selected preferred method of contact.</p>
+                        </div>`;
         }
     </script>
 
