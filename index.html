@@ -123,6 +123,11 @@
                 background-color: #b06b1a;
             }
 
+        /* Hidden text area initially */
+        #otherContact {
+            display: none;
+        }
+
         /* Responsive design for mobile devices */
         @media (max-width: 600px) {
             form {
@@ -201,9 +206,6 @@
         <!-- Consent Statement -->
         <p><strong>Consent Statement:</strong></p>
         <p class="consent">
-            <!-- Consent Statement -->
-        <p><strong>Consent Statement:</strong></p>
-        <p class="consent">
             Are you happy for us to store the information we may talk about? We will look after any personal information that is shared with us.
             This is central to our values as an organisation. We want everyone who interacts with us to feel confident about how any personal information they share will be looked after or used. <br><br>
 
@@ -235,13 +237,77 @@
             Please confirm that you understand how the information you have given us will be used, shared, and stored by us and that you give your consent for this by checking the box below.
         </p>
 
-
         <!-- Consent Checkbox -->
         <label><input type="checkbox" id="consent" name="consent" required> I give consent <span class="required">*</span></label>
 
         <!-- Submit Button -->
         <button type="submit">Submit</button>
     </form>
+
+    <script>
+        // Show "Other" text area when "Other" checkbox is selected
+        const otherCheckbox = document.querySelector('input[value="Other"]');
+        const otherContactField = document.getElementById('otherContact');
+
+        otherCheckbox.addEventListener('change', function () {
+            otherContactField.style.display = this.checked ? 'block' : 'none';
+        });
+
+        // Form Validation and Submission
+        document.getElementById('wellbeingForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form submission
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.style.display = 'none'; // Hide any previous error message
+
+            const name = document.getElementById('name').value;
+            const partnerName = document.getElementById('partnerName').value;
+            const email = document.getElementById('email').value;
+            const postcode = document.getElementById('postcode').value;
+            const phone = document.getElementById('phone').value;
+            const consent = document.getElementById('consent').checked;
+
+            // Capture selected contact methods
+            const contactMethods = document.querySelectorAll('input[name="contactMethod"]:checked');
+            let selectedMethods = [];
+            contactMethods.forEach((method) => {
+                selectedMethods.push(method.value);
+            });
+
+            // Check if at least one contact method requires a phone or email
+            if (selectedMethods.includes('Phone Call') || selectedMethods.includes('Other')) {
+                if (!phone) {
+                    errorMessage.innerHTML = "If your preferred method is Phone call or Other, a valid phone number is required.";
+                    errorMessage.style.display = 'block';
+                    document.getElementById('phone').focus();
+                    return;
+                }
+            }
+
+            if (selectedMethods.includes('Microsoft Teams') || selectedMethods.includes('Zoom')) {
+                if (!email) {
+                    errorMessage.innerHTML = "If your preferred method is Teams or Zoom, a valid email address is required.";
+                    errorMessage.style.display = 'block';
+                    document.getElementById('email').focus();
+                    return;
+                }
+            }
+
+            if (!email && !phone) {
+                errorMessage.innerHTML = "Please provide either an email or phone number.";
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            if (consent) {
+                // Send data to Airtable (API code omitted for brevity)
+                alert("Form submitted successfully!");
+            } else {
+                errorMessage.innerHTML = "Please give consent before submitting.";
+                errorMessage.style.display = 'block';
+                document.getElementById('consent').focus();
+            }
+        });
+    </script>
 
 </body>
 </html>
