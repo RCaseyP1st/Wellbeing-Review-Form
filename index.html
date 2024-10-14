@@ -51,6 +51,7 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none; /* Initially hidden */
         }
 
         /* Labels for the form fields */
@@ -123,12 +124,7 @@
                 background-color: #b06b1a;
             }
 
-        /* Hidden text area initially */
-        #otherContact {
-            display: none;
-        }
-
-        /* Consent statement styling with smaller font and italics */
+        /* Consent text styling */
         p.consent {
             font-size: 12px;
             font-style: italic;
@@ -140,6 +136,17 @@
         a {
             color: #0392A2;
             text-decoration: underline;
+        }
+
+        /* Pre-screening message styling */
+        .pre-screen {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         /* Responsive design for mobile devices */
@@ -171,28 +178,32 @@
 </head>
 <body>
 
-    <!-- Logo Section -->
-    <div class="logo-container">
+    <!-- Pre-screening confirmation section -->
+    <div class="pre-screen">
+        <h2>Eligibility Confirmation</h2>
+        <p>Please confirm that your partner is currently pregnant and under the care of EPUT's perinatal mental health service.</p>
+        <label><input type="checkbox" id="eligibilityConfirm"> I confirm</label>
+        <button id="confirmButton">Continue</button>
+    </div>
+
+    <!-- Logo Section (hidden initially) -->
+    <div class="logo-container" id="logoSection">
         <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/0ZpzuRHRXvVLxGe06x90smrbd7iaTr8sN7GzfW88.png" alt="Parents 1st Essex Logo" class="logo">
         <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/OHHLogoHoizontal.png" alt="Other Half Hub Logo" class="logo">
     </div>
 
-    <!-- Form Title -->
-    <h1>Wellbeing Review Request Form</h1>
+    <!-- Form Title (hidden initially) -->
+    <h1 id="formTitle">Wellbeing Review Request Form</h1>
 
     <!-- Error message -->
     <div class="error" id="error-message"></div>
 
-    <!-- Form Structure -->
+    <!-- Form Structure (hidden initially) -->
     <form id="wellbeingForm">
 
         <!-- Name Field -->
         <label for="name">Name: <span class="required">*</span></label>
         <input type="text" id="name" name="name" placeholder="Your Name" required>
-
-        <!-- Partner's Name Field -->
-        <label for="partnerName">Partner's Name: <span class="required">*</span></label>
-        <input type="text" id="partnerName" name="partnerName" placeholder="Your Partner's Name" required>
 
         <!-- Email Field -->
         <label for="email">Email Address:</label>
@@ -258,13 +269,24 @@
         <button type="submit">Submit</button>
     </form>
 
+    <!-- JavaScript Section -->
     <script>
-        // Show "Other" text area when "Other" checkbox is selected
-        const otherCheckbox = document.querySelector('input[value="Other"]');
-        const otherContactField = document.getElementById('otherContact');
+        // Event listener for the pre-screening checkbox and button
+        document.getElementById('confirmButton').addEventListener('click', function () {
+            const isConfirmed = document.getElementById('eligibilityConfirm').checked;
+            if (isConfirmed) {
+                document.querySelector('.pre-screen').style.display = 'none'; // Hide pre-screen
+                document.getElementById('wellbeingForm').style.display = 'block'; // Show form
+                document.getElementById('formTitle').style.display = 'block'; // Show title
+                document.getElementById('logoSection').style.display = 'flex'; // Show logos
+            } else {
+                alert('Please confirm eligibility before continuing.');
+            }
+        });
 
-        otherCheckbox.addEventListener('change', function () {
-            otherContactField.style.display = this.checked ? 'block' : 'none';
+        // Event listener to dynamically show "Other" contact method text area
+        document.querySelector('input[value="Other"]').addEventListener('change', function () {
+            document.getElementById('otherContact').style.display = this.checked ? 'block' : 'none';
         });
 
         // Form Validation and Submission
@@ -274,7 +296,6 @@
             errorMessage.style.display = 'none'; // Hide any previous error message
 
             const name = document.getElementById('name').value;
-            const partnerName = document.getElementById('partnerName').value;
             const email = document.getElementById('email').value;
             const postcode = document.getElementById('postcode').value;
             const phone = document.getElementById('phone').value;
@@ -313,7 +334,7 @@
             }
 
             if (consent) {
-                // Send data to Airtable (API code omitted for brevity)
+                // Placeholder for sending data to Airtable (API code omitted for brevity)
                 alert("Form submitted successfully!");
             } else {
                 errorMessage.innerHTML = "Please give consent before submitting.";
