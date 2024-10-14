@@ -9,18 +9,31 @@
     <style>
         /* Global styles for body */
         body {
-            font-family: "Century Gothic", Arial, sans-serif; /* Changed to Century Gothic */
+            font-family: "Century Gothic", Arial, sans-serif;
             margin: 20px;
             padding: 0;
             background-color: #f4f4f9;
         }
 
-        /* Styling for headings */
-        h1 {
-            text-align: center;
-            font-size: 28px; /* Adjusted the font size */
-            font-weight: bold;
-            color: #0392A2; /* Cyan color */
+        /* Flexbox container for logos */
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            /* Styling for both logos */
+            .logo-container img {
+                max-width: 100%;
+                height: auto;
+                object-fit: contain;
+            }
+
+        .logo {
+            width: 45%; /* Set each logo to take up 45% of the available width */
+            max-width: 300px; /* Add a max-width to control size on larger screens */
+            margin: 0 10px; /* Spacing between the logos */
         }
 
         /* Main form container */
@@ -82,7 +95,7 @@
             cursor: pointer;
             font-size: 18px;
             font-weight: bold;
-            transition: background-color 0.3s ease; /* Added hover transition */
+            transition: background-color 0.3s ease;
         }
 
             /* Button hover effect */
@@ -92,14 +105,14 @@
 
         /* Style the "Other" contact method field */
         #otherContact {
-            display: none; /* Hide initially */
+            display: none;
             font-size: 16px;
         }
 
         /* Consent statement styling */
         p {
             font-size: 16px;
-            color: black; /* Keep the consent statement black */
+            color: black;
         }
 
         /* Responsive design for mobile devices */
@@ -127,8 +140,15 @@
 </head>
 <body>
 
+    <!-- Logo Section -->
+    <div class="logo-container">
+        <!-- Parents 1st Essex Logo -->
+        <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/0ZpzuRHRXvVLxGe06x90smrbd7iaTr8sN7GzfW88.png" alt="Parents 1st Essex Logo" class="logo">
+        <!-- Other Half Hub Logo -->
+        <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/OHHLogoHoizontal.png" alt="Other Half Hub Logo" class="logo">
+    </div>
+
     <!-- Form Title -->
-    <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/jointlogoGLOW.png" alt="Form Image" width="658" height="594">
     <h1>Wellbeing Review Request Form</h1>
 
     <!-- Form Structure -->
