@@ -234,7 +234,7 @@
         <form id="wellbeingForm">
 
             <!-- Name Field -->
-            <label for="name">Name: <span class="required">*</span></label>
+            <label for="name">Name: <span class="required"><font color="red">*</font></span></label>
             <input type="text" id="name" name="name" placeholder="Your Name" required>
 
             <!-- Email Field -->
@@ -242,7 +242,7 @@
             <input type="email" id="email" name="email" placeholder="Your Email Address">
 
             <!-- Postcode Field -->
-            <label for="postcode">Postcode: <span class="required">*</span></label>
+            <label for="postcode">Postcode: <span class="required"><font color="red">*</font></span></label>
             <input type="text" id="postcode" name="postcode" placeholder="Your Postcode" required>
 
             <!-- Phone Number Field -->
@@ -296,7 +296,7 @@
             </p>
 
             <!-- Consent Checkbox -->
-            <label><input type="checkbox" id="consent" name="consent" required> Consent <span class="required">*</span></label>
+            <label><input type="checkbox" id="consent" name="consent" required> Consent <span class="required"><font color="red">*</font></span></label>
 
             <!-- Submit Button -->
             <button type="submit">Submit</button>
@@ -313,7 +313,7 @@
                 document.getElementById('prescreening').style.display = 'none';
                 document.getElementById('form-container').style.display = 'block';
             } else {
-                errorMessage.innerHTML = `<span>*</span> Please confirm that your partner is currently pregnant and under the care of EPUT. <span>*</span>`;
+                errorMessage.innerHTML = `<span><font color="red">*</font></span> Please confirm that your partner is currently pregnant and under the care of EPUT. <span><font color="red">*</font></span>`;
                 errorMessage.style.display = 'block';
             }
         }
@@ -349,7 +349,7 @@
 
             // Error formatting
             function showError(message) {
-                errorMessage.innerHTML = `<span>*</span> ${message} <span>*</span>`;
+                errorMessage.innerHTML = `<span><font color="red">*</font></span> ${message} <span><font color="red">*</font></span>`;
                 errorMessage.style.display = 'block';
             }
 
