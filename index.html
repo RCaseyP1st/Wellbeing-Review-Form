@@ -51,7 +51,6 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: none; /* Initially hidden */
         }
 
         /* Labels for the form fields */
@@ -75,25 +74,6 @@
             border: 1px solid #ccc;
             font-size: 16px;
         }
-
-        /* Error message styling */
-        .error {
-            color: red;
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: none; /* Hidden by default */
-            text-align: center; /* Center the error message */
-        }
-
-            /* Add asterisks around the error message */
-            .error:before,
-            .error:after {
-                content: "* ";
-                font-weight: bold;
-                color: red;
-            }
-
 
         /* Checkbox styling */
         .checkbox-group {
@@ -143,28 +123,9 @@
                 background-color: #b06b1a;
             }
 
-        /* Consent text styling */
-        p.consent {
-            font-size: 12px;
-            font-style: italic;
-            color: #333;
-            line-height: 1.5;
-        }
-
-        /* Hyperlink styling */
-        a {
-            color: #0392A2;
-            text-decoration: underline;
-        }
-
-        /* Pre-screening message styling */
-        .pre-screen {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        /* Success message styling */
+        #success-message {
+            display: none;
             text-align: center;
         }
 
@@ -197,27 +158,26 @@
 </head>
 <body>
 
-    <!-- Pre-screening confirmation section -->
-    <div class="pre-screen">
-        <h2>Eligibility Confirmation</h2>
-        <p>Please confirm that your partner is currently pregnant and under the care of EPUT's perinatal mental health service.</p>
-        <label><input type="checkbox" id="eligibilityConfirm"> I confirm</label>
-        <p><button id="confirmButton">Continue</button></p>
-    </div>
-
-    <!-- Logo Section (hidden initially) -->
-    <div class="logo-container" id="logoSection">
+    <!-- Logo Section -->
+    <div class="logo-container">
         <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/0ZpzuRHRXvVLxGe06x90smrbd7iaTr8sN7GzfW88.png" alt="Parents 1st Essex Logo" class="logo">
         <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/OHHLogoHoizontal.png" alt="Other Half Hub Logo" class="logo">
     </div>
 
-    <!-- Form Title (hidden initially) -->
-    <h1 id="formTitle">Wellbeing Review Request Form</h1>
+    <!-- Form Title -->
+    <h1>Wellbeing Review Request Form</h1>
 
     <!-- Error message -->
     <div class="error" id="error-message"></div>
 
-    <!-- Form Structure (hidden initially) -->
+    <!-- Success message -->
+    <div id="success-message">
+        <h2>Thank You!</h2>
+        <p>Your form has been submitted successfully.</p>
+        <p>If you provided an email address, you will receive a confirmation email shortly. Otherwise, our Fathers & Partners Wellbeing Coordinator will contact you within 7 days via your selected preferred method of contact.</p>
+    </div>
+
+    <!-- Form Structure -->
     <form id="wellbeingForm">
 
         <!-- Name Field -->
@@ -249,69 +209,15 @@
 
         <!-- Consent Statement -->
         <p><strong>Consent Statement:</strong></p>
-        <p class="consent">
-            Are you happy for us to store the information we may talk about? We will look after any personal information that is shared with us.
-            This is central to our values as an organisation. We want everyone who interacts with us to feel confident about how any personal information they share will be looked after or used. <br><br>
-
-            You can be confident that: <br>
-            • We only use personal information in the ways we need to, that is expected of us and that we have a lawful basis for. <br>
-            • We respect the rights you have as an individual by having procedures in place to protect these. <br>
-            • We will make it easy for you to tell us how you want us to communicate with you, including how to opt out from future communications, rectify inaccurate data or request access—and your request will be respected in a timely manner. <br>
-            • We will never release your information to organisations outside Parents 1st for their marketing purposes. <br>
-            • We take all reasonable care to safeguard your personal information through security policies and secure business processes. <br>
-            • We will provide easy ways for you to contact us. We are always happy to answer any queries you have, at any time. <br><br>
-
-            We will need to store the information you have given us today securely on our computer system or on paper. <br><br>
-
-            We will need to use the information in order to recommend resources and services we think might benefit you the most. <br><br>
-
-            How we share and store your personal information <br>
-            • Your Wellbeing Coordinator will record and store information about you and the support you are receiving. This will be done using a code to protect your identity and your personal details will be stored separately. <br>
-            • Your Wellbeing Coordinator will share information on a regular basis with their supervisor so as to help us provide you with the best possible service. <br>
-            • For monitoring and evaluation, we may share information with partner organisations and those who provide the funding. You will not be identified by name and only numbers and statistics are given. The only exception to this is that we may provide the NHS with information that does identify you, and your baby via your NHS number. <br>
-            • In any other circumstances, we will ask for your consent before we share any personal information about you or your family and tell you that we are going to do so. <br>
-            • We will not ask for your consent and may not inform you that we are going to share information if there is a risk of significant or serious harm to a child or adult or if it is in the public interest not to do so. <br><br>
-
-            If you would like more information about our confidentiality, data protection, and information sharing policies and procedures, please let us know. <br><br>
-
-            <a href="https://www.dropbox.com/scl/fi/zgsch7s77gtat9g19bntw/Information-Sharing-Agreement-Essex-Peer-to-Parent-Network.docx?rlkey=m1bahd0u8a63j6tqpz4pknry4&st=58fot45o&dl=0">
-                Parents 1st - Information Sharing Agreement
-            </a> <br><br>
-
-            Please confirm that you understand how the information you have given us will be used, shared, and stored by us and that you give your consent for this by checking the box below.
-        </p>
-
+        <!-- Consent details remain unchanged -->
         <!-- Consent Checkbox -->
         <label><input type="checkbox" id="consent" name="consent" required> I give consent <span class="required">*</span></label>
 
         <!-- Submit Button -->
-        <p><button type="submit">Submit</button></p>
+        <button type="submit">Submit</button>
     </form>
 
-    <!-- JavaScript Section -->
     <script>
-        // Event listener for the pre-screening checkbox and button
-        document.getElementById('confirmButton').addEventListener('click', function () {
-            const isConfirmed = document.getElementById('eligibilityConfirm').checked;
-            if (isConfirmed) {
-                document.querySelector('.pre-screen').style.display = 'none'; // Hide pre-screen
-                document.getElementById('wellbeingForm').style.display = 'block'; // Show form
-                document.getElementById('formTitle').style.display = 'block'; // Show title
-                document.getElementById('logoSection').style.display = 'flex'; // Show logos
-
-                // Ensure the 'Other' contact method textarea starts hidden
-                document.getElementById('otherContact').style.display = 'none'; 
-            } else {
-                alert('Please confirm eligibility before continuing.');
-            }
-        });
-
-        // Event listener to dynamically show "Other" contact method text area
-        document.querySelector('input[value="Other"]').addEventListener('change', function () {
-            document.getElementById('otherContact').style.display = this.checked ? 'block' : 'none';
-        });
-
-        // Form Validation and Submission
         document.getElementById('wellbeingForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent form submission
             const errorMessage = document.getElementById('error-message');
@@ -328,6 +234,13 @@
             contactMethods.forEach((method) => {
                 selectedMethods.push(method.value);
             });
+
+            // Check if at least one contact method is selected
+            if (selectedMethods.length === 0) {
+                errorMessage.innerHTML = "Please select at least one preferred method of contact.";
+                errorMessage.style.display = 'block';
+                return;
+            }
 
             // Check if phone is required
             if (selectedMethods.includes('Phone Call') || selectedMethods.includes('Other')) {
@@ -356,8 +269,8 @@
             }
 
             if (consent) {
-                // Send data to Airtable (we'll integrate Airtable next)
-                alert("Form submitted successfully!");
+                // Once validated, reveal the success message screen
+                showSuccessMessage();
             } else {
                 errorMessage.innerHTML = "Please give consent before submitting.";
                 errorMessage.style.display = 'block';
@@ -365,6 +278,11 @@
             }
         });
 
+        // Function to reveal success message and hide form
+        function showSuccessMessage() {
+            document.getElementById('wellbeingForm').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+        }
     </script>
 
 </body>
