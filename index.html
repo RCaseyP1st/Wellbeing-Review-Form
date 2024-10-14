@@ -7,7 +7,6 @@
 
     <!-- Inline CSS for Styling the Form -->
     <style>
-        /* Global styles for body */
         body {
             font-family: "Century Gothic", Arial, sans-serif;
             margin: 20px;
@@ -114,6 +113,14 @@
             display: none; /* Hidden by default */
         }
 
+        /* Success message styling */
+        .success {
+            color: green;
+            font-size: 16px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
         /* Button styling */
         button {
             display: block;
@@ -191,8 +198,9 @@
     <!-- Form Title -->
     <h1>Wellbeing Review Request Form</h1>
 
-    <!-- Error message -->
+    <!-- Error and Success messages -->
     <div class="error" id="error-message"></div>
+    <div class="success" id="success-message">Form submitted successfully!</div>
 
     <!-- Form Structure -->
     <form id="wellbeingForm">
@@ -274,7 +282,9 @@
         document.getElementById('wellbeingForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent form submission
             const errorMessage = document.getElementById('error-message');
-            errorMessage.style.display = 'none'; // Hide any previous error message
+            const successMessage = document.getElementById('success-message');
+            errorMessage.style.display = 'none'; // Hide previous error
+            successMessage.style.display = 'none'; // Hide previous success
 
             const name = document.getElementById('name').value;
             const partnerName = document.getElementById('partnerName').value;
@@ -290,7 +300,7 @@
                 selectedMethods.push(method.value);
             });
 
-            // Check if at least one contact method requires a phone or email
+            // Validation logic
             if (selectedMethods.includes('Phone Call') || selectedMethods.includes('Other')) {
                 if (!phone) {
                     errorMessage.innerHTML = "If your preferred method is Phone call or Other, a valid phone number is required.";
@@ -316,8 +326,8 @@
             }
 
             if (consent) {
-                // Send data to Airtable (API code omitted for brevity)
-                alert("Form submitted successfully!");
+                // Here you'd add the Airtable API submission logic
+                successMessage.style.display = 'block'; // Show success message
             } else {
                 errorMessage.innerHTML = "Please give consent before submitting.";
                 errorMessage.style.display = 'block';
