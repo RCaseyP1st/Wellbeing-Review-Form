@@ -106,6 +106,14 @@
             color: red;
         }
 
+        /* Error message styling */
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: none; /* Hidden by default */
+        }
+
         /* Button styling */
         button {
             display: block;
@@ -182,6 +190,9 @@
 
     <!-- Form Title -->
     <h1>Wellbeing Review Request Form</h1>
+
+    <!-- Error message -->
+    <div class="error" id="error-message"></div>
 
     <!-- Form Structure -->
     <form id="wellbeingForm">
@@ -260,14 +271,10 @@
 
     <!-- JavaScript Section -->
     <script>
-        // Show the "Other" contact method text area
-        document.querySelector('input[value="Other"]').addEventListener('change', function () {
-            document.getElementById('otherContact').style.display = this.checked ? 'block' : 'none';
-        });
-
-        // Form validation to ensure either email or phone is provided
         document.getElementById('wellbeingForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent form submission
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.style.display = 'none'; // Hide any previous error message
 
             const name = document.getElementById('name').value;
             const partnerName = document.getElementById('partnerName').value;
@@ -276,8 +283,35 @@
             const phone = document.getElementById('phone').value;
             const consent = document.getElementById('consent').checked;
 
+            // Capture selected contact methods
+            const contactMethods = document.querySelectorAll('input[name="contactMethod"]:checked');
+            let selectedMethods = [];
+            contactMethods.forEach((method) => {
+                selectedMethods.push(method.value);
+            });
+
+            // Check if at least one contact method requires a phone or email
+            if (selectedMethods.includes('Phone Call') || selectedMethods.includes('Other')) {
+                if (!phone) {
+                    errorMessage.innerHTML = "If your preferred method is Phone call or Other, a valid phone number is required.";
+                    errorMessage.style.display = 'block';
+                    document.getElementById('phone').focus();
+                    return;
+                }
+            }
+
+            if (selectedMethods.includes('Microsoft Teams') || selectedMethods.includes('Zoom')) {
+                if (!email) {
+                    errorMessage.innerHTML = "If your preferred method is Teams or Zoom, a valid email address is required.";
+                    errorMessage.style.display = 'block';
+                    document.getElementById('email').focus();
+                    return;
+                }
+            }
+
             if (!email && !phone) {
-                alert("Please provide either an email or phone number.");
+                errorMessage.innerHTML = "Please provide either an email or phone number.";
+                errorMessage.style.display = 'block';
                 return;
             }
 
@@ -285,7 +319,9 @@
                 // Send data to Airtable (API code omitted for brevity)
                 alert("Form submitted successfully!");
             } else {
-                alert("Please give consent before submitting.");
+                errorMessage.innerHTML = "Please give consent before submitting.";
+                errorMessage.style.display = 'block';
+                document.getElementById('consent').focus();
             }
         });
     </script>
