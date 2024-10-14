@@ -183,7 +183,7 @@
         <h2>Eligibility Confirmation</h2>
         <p>Please confirm that your partner is currently pregnant and under the care of EPUT's perinatal mental health service.</p>
         <label><input type="checkbox" id="eligibilityConfirm"> I confirm</label>
-        <button id="confirmButton">Continue</button>
+        <p><button id="confirmButton">Continue</button></p>
     </div>
 
     <!-- Logo Section (hidden initially) -->
@@ -266,7 +266,7 @@
         <label><input type="checkbox" id="consent" name="consent" required> I give consent <span class="required">*</span></label>
 
         <!-- Submit Button -->
-        <button type="submit">Submit</button>
+        <p><button type="submit">Submit</button></p>
     </form>
 
     <!-- JavaScript Section -->
@@ -279,6 +279,9 @@
                 document.getElementById('wellbeingForm').style.display = 'block'; // Show form
                 document.getElementById('formTitle').style.display = 'block'; // Show title
                 document.getElementById('logoSection').style.display = 'flex'; // Show logos
+
+                // Ensure the 'Other' contact method textarea starts hidden
+                document.getElementById('otherContact').style.display = 'none'; 
             } else {
                 alert('Please confirm eligibility before continuing.');
             }
