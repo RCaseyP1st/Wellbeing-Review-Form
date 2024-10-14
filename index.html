@@ -57,9 +57,12 @@
             color: black;
             font-size: 14px;
             margin-bottom: 10px;
-            display: none; /* Hidden by default */
+            display: none;
             text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease; /* Smooth fade-in/out effect */
         }
+
 
             /* Custom error message styling with stars */
             .error span {
@@ -181,7 +184,7 @@
         /* Responsive design for mobile */
         @media (max-width: 600px) {
             form {
-                padding: 10px;
+                padding: 15px;
             }
 
             h1 {
@@ -213,7 +216,7 @@
         <p>Please confirm that your partner is currently pregnant and under the care of EPUT.</p>
         <label><input type="checkbox" id="eligibility" name="eligibility" required> Confirm</label>
         <p></p>
-        <button type="button" onclick="showForm()">Continue</button>
+        <button type="button" onclick="showForm()" aria-label="Confirm eligibility and continue">Continue</button>
         <div class="error" id="prescreening-error"></div>
     </div>
 
@@ -299,7 +302,7 @@
             <label><input type="checkbox" id="consent" name="consent" required> Consent <span class="required"><font color="red">*</font></span></label><p></p>
 
             <!-- Submit Button -->
-            <button type="submit">Submit</button>
+            <button type="submit" aria-label="Submit Wellbeing Review Request Form">Submit</button>
         </form>
     </div>
 
@@ -347,17 +350,53 @@
                 selectedMethods.push(method.value);
             });
 
+            // If "Other" is selected, ensure there is input in the text box
+            if (selectedMethods.includes('Other')) {
+                const otherContact = document.getElementById('otherContact').value.trim();
+                if (!otherContact) {
+                    showError("Please specify your preferred contact method under 'Other'.");
+                    document.getElementById('otherContact').focus();
+                    return;
+                }
+            }
+
+
             // Error formatting
             function showError(message) {
                 errorMessage.innerHTML = `<span><font color="red">*</font></span> ${message} <span><font color="red">*</font></span>`;
                 errorMessage.style.display = 'block';
+                errorMessage.style.opacity = 1; // Make the error visible with transition
             }
+
 
             // Check if at least one contact method is selected
             if (selectedMethods.length === 0) {
                 showError("Please select at least one preferred method of contact.");
                 return;
             }
+
+            // Format phone number if valid
+            if (phone) {
+                // If the phone number starts with 0, replace it with +44
+                if (phone.startsWith('0')) {
+                    phone = phone.replace(/^0/, '+44');
+                }
+
+                // If the phone starts with +440, replace it with +44 (correct the invalid +440 prefix)
+                if (phone.startsWith('+440')) {
+                    phone = phone.replace('+440', '+44');
+                }
+
+                // Ensure the phone number matches the UK format after changes
+                const phonePattern = /^(\+44)7\d{9}$/;
+                if (!phonePattern.test(phone)) {
+                    showError("Please provide a valid UK phone number.");
+                    document.getElementById('phone').focus();
+                    return;
+                }
+            }
+
+
 
             // Check if phone is required
             if (selectedMethods.includes('Phone Call') || selectedMethods.includes('Other')) {
@@ -367,6 +406,15 @@
                     return;
                 }
             }
+
+            // Regex for valid email format
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email && !emailPattern.test(email)) {
+                showError("Please provide a valid email address.");
+                document.getElementById('email').focus();
+                return;
+            }
+
 
             // Check if email is required
             if (selectedMethods.includes('Microsoft Teams') || selectedMethods.includes('Zoom')) {
@@ -390,6 +438,8 @@
                 document.getElementById('consent').focus();
             }
         });
+
+        document.querySelector('button[type="submit"]').disabled = true;
 
         // Success message and hide form
         function showSuccessMessage() {
