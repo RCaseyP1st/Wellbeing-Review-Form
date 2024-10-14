@@ -68,12 +68,28 @@
         input[type="tel"],
         textarea {
             width: 100%;
-            padding: 8px;
+            padding: 8px 12px;
             margin: 5px 0 20px;
             border-radius: 4px;
             border: 1px solid #ccc;
             font-size: 16px;
+            box-sizing: border-box;
         }
+
+        /* Error message styling */
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: none; /* Hidden by default */
+            text-align: center;
+        }
+
+            /* Custom error message styling with stars */
+            .error span {
+                font-weight: bold;
+                color: red;
+            }
 
         /* Checkbox styling */
         .checkbox-group {
@@ -124,10 +140,14 @@
             }
 
         /* Success message styling */
-        #success-message {
-            display: none;
+        .success-message {
             text-align: center;
+            padding: 20px;
         }
+
+            .success-message h1 {
+                color: #0392A2;
+            }
 
         /* Responsive design for mobile devices */
         @media (max-width: 600px) {
@@ -158,66 +178,117 @@
 </head>
 <body>
 
-    <!-- Logo Section -->
-    <div class="logo-container">
-        <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/0ZpzuRHRXvVLxGe06x90smrbd7iaTr8sN7GzfW88.png" alt="Parents 1st Essex Logo" class="logo">
-        <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/OHHLogoHoizontal.png" alt="Other Half Hub Logo" class="logo">
+    <!-- Pre-Screening Section -->
+    <div id="prescreening">
+        <h2>Eligibility Confirmation</h2>
+        <p>Please confirm that your partner is currently pregnant and under the care of EPUT.</p>
+        <label><input type="checkbox" id="eligibility" name="eligibility" required> I confirm</label>
+        <button type="button" onclick="showForm()">Continue</button>
     </div>
 
-    <!-- Form Title -->
-    <h1>Wellbeing Review Request Form</h1>
-
-    <!-- Error message -->
-    <div class="error" id="error-message"></div>
-
-    <!-- Success message -->
-    <div id="success-message">
-        <h2>Thank You!</h2>
-        <p>Your form has been submitted successfully.</p>
-        <p>If you provided an email address, you will receive a confirmation email shortly. Otherwise, our Fathers & Partners Wellbeing Coordinator will contact you within 7 days via your selected preferred method of contact.</p>
-    </div>
-
-    <!-- Form Structure -->
-    <form id="wellbeingForm">
-
-        <!-- Name Field -->
-        <label for="name">Name: <span class="required">*</span></label>
-        <input type="text" id="name" name="name" placeholder="Your Name" required>
-
-        <!-- Email Field -->
-        <label for="email">Email Address:</label>
-        <input type="email" id="email" name="email" placeholder="Your Email Address">
-
-        <!-- Postcode Field -->
-        <label for="postcode">Postcode: <span class="required">*</span></label>
-        <input type="text" id="postcode" name="postcode" placeholder="Your Postcode" required>
-
-        <!-- Phone Number Field -->
-        <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone" placeholder="Your Phone Number">
-
-        <!-- Preferred Method of Contact -->
-        <label>Preferred Method of Contact:</label>
-        <p>You can select more than 1 option</p>
-        <div class="checkbox-group">
-            <label><input type="checkbox" name="contactMethod" value="Phone Call"> Phone Call</label>
-            <label><input type="checkbox" name="contactMethod" value="Microsoft Teams"> Microsoft Teams</label>
-            <label><input type="checkbox" name="contactMethod" value="Zoom"> Zoom</label>
-            <label><input type="checkbox" name="contactMethod" value="Other"> Other (Please specify)</label>
+    <!-- Main Form Section (Initially Hidden) -->
+    <div id="form-container" style="display:none;">
+        <!-- Logo Section -->
+        <div class="logo-container">
+            <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/0ZpzuRHRXvVLxGe06x90smrbd7iaTr8sN7GzfW88.png" alt="Parents 1st Essex Logo" class="logo">
+            <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/OHHLogoHoizontal.png" alt="Other Half Hub Logo" class="logo">
         </div>
-        <textarea id="otherContact" placeholder="e.g., Text Messages (SMS) or WhatsApp"></textarea>
 
-        <!-- Consent Statement -->
-        <p><strong>Consent Statement:</strong></p>
-        <!-- Consent details remain unchanged -->
-        <!-- Consent Checkbox -->
-        <label><input type="checkbox" id="consent" name="consent" required> I give consent <span class="required">*</span></label>
+        <!-- Form Title -->
+        <h1>Wellbeing Review Request Form</h1>
 
-        <!-- Submit Button -->
-        <button type="submit">Submit</button>
-    </form>
+        <!-- Error message -->
+        <div class="error" id="error-message"></div>
 
+        <!-- Form Structure -->
+        <form id="wellbeingForm">
+
+            <!-- Name Field -->
+            <label for="name">Name: <span class="required">*</span></label>
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+
+            <!-- Email Field -->
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" placeholder="Your Email Address">
+
+            <!-- Postcode Field -->
+            <label for="postcode">Postcode: <span class="required">*</span></label>
+            <input type="text" id="postcode" name="postcode" placeholder="Your Postcode" required>
+
+            <!-- Phone Number Field -->
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Your Phone Number">
+
+            <!-- Preferred Method of Contact -->
+            <label>Preferred Method of Contact:</label>
+            <p>You can select more than 1 option</p>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="contactMethod" value="Phone Call"> Phone Call</label>
+                <label><input type="checkbox" name="contactMethod" value="Microsoft Teams"> Microsoft Teams</label>
+                <label><input type="checkbox" name="contactMethod" value="Zoom"> Zoom</label>
+                <label><input type="checkbox" name="contactMethod" value="Other"> Other (Please specify)</label>
+            </div>
+            <textarea id="otherContact" placeholder="e.g., Text Messages (SMS) or WhatsApp"></textarea>
+
+            <!-- Consent Statement -->
+            <p><strong>Consent Statement:</strong></p>
+            <p class="consent">
+                Are you happy for us to store the information we may talk about? We will look after any personal information that is shared with us.
+                This is central to our values as an organisation. We want everyone who interacts with us to feel confident about how any personal information they share will be looked after or used. <br><br>
+
+                You can be confident that: <br>
+                • We only use personal information in the ways we need to, that is expected of us and that we have a lawful basis for. <br>
+                • We respect the rights you have as an individual by having procedures in place to protect these. <br>
+                • We will make it easy for you to tell us how you want us to communicate with you, including how to opt out from future communications, rectify inaccurate data or request access—and your request will be respected in a timely manner. <br>
+                • We will never release your information to organisations outside Parents 1st for their marketing purposes. <br>
+                • We take all reasonable care to safeguard your personal information through security policies and secure business processes. <br>
+                • We will provide easy ways for you to contact us. We are always happy to answer any queries you have, at any time. <br><br>
+
+                We will need to store the information you have given us today securely on our computer system or on paper. <br><br>
+
+                We will need to use the information in order to recommend resources and services we think might benefit you the most. <br><br>
+
+                How we share and store your personal information <br>
+                • Your Wellbeing Coordinator will record and store information about you and the support you are receiving. This will be done using a code to protect your identity and your personal details will be stored separately. <br>
+                • Your Wellbeing Coordinator will share information on a regular basis with their supervisor so as to help us provide you with the best possible service. <br>
+                • For monitoring and evaluation, we may share information with partner organisations and those who provide the funding. You will not be identified by name and only numbers and statistics are given. The only exception to this is that we may provide the NHS with information that does identify you, and your baby via your NHS number. <br>
+                • In any other circumstances, we will ask for your consent before we share any personal information about you or your family and tell you that we are going to do so. <br>
+                • We will not ask for your consent and may not inform you that we are going to share information if there is a risk of significant or serious harm to a child or adult or if it is in the public interest not to do so. <br><br>
+
+                If you would like more information about our confidentiality, data protection, and information sharing policies and procedures, please let us know. <br><br>
+
+                <a href="https://www.dropbox.com/scl/fi/zgsch7s77gtat9g19bntw/Information-Sharing-Agreement-Essex-Peer-to-Parent-Network.docx?rlkey=m1bahd0u8a63j6tqpz4pknry4&st=58fot45o&dl=0">
+                    Parents 1st - Information Sharing Agreement
+                </a> <br><br>
+
+                Please confirm that you understand how the information you have given us will be used, shared, and stored by us and that you give your consent for this by checking the box below.
+            </p>
+
+            <!-- Consent text -->
+            </p>
+
+            <!-- Consent Checkbox -->
+            <label><input type="checkbox" id="consent" name="consent" required> I give consent <span class="required">*</span></label>
+
+            <!-- Submit Button -->
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- JavaScript Section -->
     <script>
+        // Pre-screening logic
+        function showForm() {
+            const eligibility = document.getElementById('eligibility').checked;
+            if (eligibility) {
+                document.getElementById('prescreening').style.display = 'none';
+                document.getElementById('form-container').style.display = 'block';
+            } else {
+                alert("Please confirm that your partner is currently pregnant and under the care of EPUT.");
+            }
+        }
+
+        // Form submission logic with enhanced error messages
         document.getElementById('wellbeingForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent form submission
             const errorMessage = document.getElementById('error-message');
@@ -229,24 +300,29 @@
             const phone = document.getElementById('phone').value;
             const consent = document.getElementById('consent').checked;
 
+            // Capture selected contact methods
             const contactMethods = document.querySelectorAll('input[name="contactMethod"]:checked');
             let selectedMethods = [];
             contactMethods.forEach((method) => {
                 selectedMethods.push(method.value);
             });
 
+            // Error formatting
+            function showError(message) {
+                errorMessage.innerHTML = `<span>*</span> ${message} <span>*</span>`;
+                errorMessage.style.display = 'block';
+            }
+
             // Check if at least one contact method is selected
             if (selectedMethods.length === 0) {
-                errorMessage.innerHTML = "Please select at least one preferred method of contact.";
-                errorMessage.style.display = 'block';
+                showError("Please select at least one preferred method of contact.");
                 return;
             }
 
             // Check if phone is required
             if (selectedMethods.includes('Phone Call') || selectedMethods.includes('Other')) {
                 if (!phone) {
-                    errorMessage.innerHTML = "If your preferred method is Phone call or Other, a valid phone number is required.";
-                    errorMessage.style.display = 'block';
+                    showError("If your preferred method is Phone call or Other, a valid phone number is required.");
                     document.getElementById('phone').focus();
                     return;
                 }
@@ -255,33 +331,35 @@
             // Check if email is required
             if (selectedMethods.includes('Microsoft Teams') || selectedMethods.includes('Zoom')) {
                 if (!email) {
-                    errorMessage.innerHTML = "If your preferred method is Teams or Zoom, a valid email address is required.";
-                    errorMessage.style.display = 'block';
+                    showError("If your preferred method is Teams or Zoom, a valid email address is required.");
                     document.getElementById('email').focus();
                     return;
                 }
             }
 
             if (!email && !phone) {
-                errorMessage.innerHTML = "Please provide either an email or phone number.";
-                errorMessage.style.display = 'block';
+                showError("Please provide either an email or phone number.");
                 return;
             }
 
             if (consent) {
-                // Once validated, reveal the success message screen
+                // Show success message and hide form
                 showSuccessMessage();
             } else {
-                errorMessage.innerHTML = "Please give consent before submitting.";
-                errorMessage.style.display = 'block';
+                showError("Please give consent before submitting.");
                 document.getElementById('consent').focus();
             }
         });
 
-        // Function to reveal success message and hide form
+        // Success message and hide form
         function showSuccessMessage() {
-            document.getElementById('wellbeingForm').style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
+            const form = document.getElementById('wellbeingForm');
+            form.innerHTML = `
+                    <div class="success-message">
+                        <h1>Thank You!</h1>
+                        <p>Your form has been submitted successfully.</p>
+                        <p>If you provided an email address, you will receive a confirmation email shortly. Otherwise, our Fathers & Partners Wellbeing coordinator will contact you within 7 days via your selected preferred method of contact.</p>
+                    </div>`;
         }
     </script>
 
