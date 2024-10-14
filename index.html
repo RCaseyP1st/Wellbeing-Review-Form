@@ -82,9 +82,24 @@
             display: inline-block;
         }
 
-        button:hover {
-            background-color: #b06b1a;
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #D78223;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
+
+            button:hover {
+                background-color: #b06b1a;
+            }
+
 
         /* Text input fields */
         input[type="text"],
@@ -106,6 +121,28 @@
             font-style: italic;
             color: #333;
         }
+
+        /* Flexbox container for logos */
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            /* Styling for both logos */
+            .logo-container img {
+                max-width: 100%;
+                height: auto;
+                object-fit: contain;
+            }
+
+        .logo {
+            width: 45%;
+            max-width: 300px;
+            margin: 0 10px;
+        }
+
 
         /* Success message styling */
         .success-message {
@@ -174,7 +211,7 @@
     <div id="prescreening">
         <h2>Eligibility Confirmation</h2>
         <p>Please confirm that your partner is currently pregnant and under the care of EPUT.</p>
-        <label><input type="checkbox" id="eligibility" name="eligibility" required> I confirm</label>
+        <label><input type="checkbox" id="eligibility" name="eligibility" required> Confirm</label>
         <p></p>
         <button type="button" onclick="showForm()">Continue</button>
         <div class="error" id="prescreening-error"></div>
@@ -182,6 +219,11 @@
 
     <!-- Main Form Section (Initially Hidden) -->
     <div id="form-container" style="display:none;">
+        <!-- Logo Section -->
+        <div class="logo-container">
+            <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/0ZpzuRHRXvVLxGe06x90smrbd7iaTr8sN7GzfW88.png" alt="Parents 1st Essex Logo" class="logo">
+            <img src="https://raw.githubusercontent.com/RCaseyP1st/Wellbeing-Review-Form/master/OHHLogoHoizontal.png" alt="Other Half Hub Logo" class="logo">
+        </div>
         <!-- Form Title -->
         <h1>Wellbeing Review Request Form</h1>
 
@@ -254,7 +296,7 @@
             </p>
 
             <!-- Consent Checkbox -->
-            <label><input type="checkbox" id="consent" name="consent" required> I give consent <span class="required">*</span></label>
+            <label><input type="checkbox" id="consent" name="consent" required> Consent <span class="required">*</span></label>
 
             <!-- Submit Button -->
             <button type="submit">Submit</button>
@@ -353,12 +395,14 @@
         function showSuccessMessage() {
             const form = document.getElementById('wellbeingForm');
             form.innerHTML = `
-                        <div class="success-message">
-                            <h1>Thank You!</h1>
-                            <p>Your form has been submitted successfully.</p>
-                            <p>If you provided an email address, you will receive a confirmation email shortly. Otherwise, our Fathers & Partners Wellbeing coordinator will contact you within 7 days via your selected preferred method of contact.</p>
-                        </div>`;
+        <div class="success-message">
+            <h1>Thank You!</h1>
+            <p>Your form has been submitted successfully.</p>
+            <p>If you provided an email address, you will receive a confirmation email shortly. Otherwise, our Fathers & Partners Wellbeing coordinator will contact you within 7 days via your selected preferred method of contact.</p>
+            <button onclick="window.top.location.href='https://parents1st.org.uk/the-other-half-hub'" style="background-color: #D78223; color: white; padding: 10px; border-radius: 4px; cursor: pointer; font-size: 18px;">Return to The Other Half-Hub</button>
+        </div>`;
         }
+
     </script>
 
 </body>
