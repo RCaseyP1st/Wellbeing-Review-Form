@@ -473,8 +473,17 @@
                 })
                 .catch(error => {
                     console.error('Error submitting data to Airtable:', error);
-                    showError('An error occurred while submitting the form. Please try again later.');
+
+                    // More detailed error handling to identify possible issues
+                    if (error.message.includes('Failed to submit data to Airtable')) {
+                        showError('Submission failed. Double-check that all form fields are filled out correctly and try again.');
+                    } else if (error.message.includes('401')) {
+                        showError('Unauthorized access. Please check your Airtable API token.');
+                    } else {
+                        showError('An error occurred while submitting the form. Please try again later.');
+                    }
                 });
+
 
             // Only show success if Airtable request succeeds
             if (consent) {
