@@ -76,6 +76,25 @@
             font-size: 16px;
         }
 
+        /* Error message styling */
+        .error {
+            color: red;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: none; /* Hidden by default */
+            text-align: center; /* Center the error message */
+        }
+
+            /* Add asterisks around the error message */
+            .error:before,
+            .error:after {
+                content: "* ";
+                font-weight: bold;
+                color: red;
+            }
+
+
         /* Checkbox styling */
         .checkbox-group {
             margin: 10px 0;
@@ -304,14 +323,13 @@
             const phone = document.getElementById('phone').value;
             const consent = document.getElementById('consent').checked;
 
-            // Capture selected contact methods
             const contactMethods = document.querySelectorAll('input[name="contactMethod"]:checked');
             let selectedMethods = [];
             contactMethods.forEach((method) => {
                 selectedMethods.push(method.value);
             });
 
-            // Check if at least one contact method requires a phone or email
+            // Check if phone is required
             if (selectedMethods.includes('Phone Call') || selectedMethods.includes('Other')) {
                 if (!phone) {
                     errorMessage.innerHTML = "If your preferred method is Phone call or Other, a valid phone number is required.";
@@ -321,6 +339,7 @@
                 }
             }
 
+            // Check if email is required
             if (selectedMethods.includes('Microsoft Teams') || selectedMethods.includes('Zoom')) {
                 if (!email) {
                     errorMessage.innerHTML = "If your preferred method is Teams or Zoom, a valid email address is required.";
@@ -337,7 +356,7 @@
             }
 
             if (consent) {
-                // Placeholder for sending data to Airtable (API code omitted for brevity)
+                // Send data to Airtable (we'll integrate Airtable next)
                 alert("Form submitted successfully!");
             } else {
                 errorMessage.innerHTML = "Please give consent before submitting.";
@@ -345,6 +364,7 @@
                 document.getElementById('consent').focus();
             }
         });
+
     </script>
 
 </body>
