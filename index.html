@@ -339,7 +339,7 @@
             const postcode = document.getElementById('postcode').value;
             let phone = document.getElementById('phone').value;  // Let keyword to allow modification
             const consent = document.getElementById('consent').checked;
-            const eligibility = document.getElementById('eligibility').checked ? 'Confirmed' : 'Not Confirmed';
+            const eligibility = document.getElementById('eligibility').checked; // This will now be true or false
 
             // Capture selected contact methods
             const contactMethods = document.querySelectorAll('input[name="contactMethod"]:checked');
