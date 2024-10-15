@@ -464,27 +464,29 @@
             fetch(airtableAPIURL, requestOptions)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Failed to submit data to Airtable');
+                        // Here you can check if response.status is 400 or 422 (bad request)
+                        return response.json().then(errorResponse => {
+                            console.error('Detailed error from Airtable:', errorResponse);
+                            throw new Error(`Failed to submit data: ${JSON.stringify(errorResponse)}`);
+                        });
                     }
                     return response.json();
                 })
                 .then(data => {
                     console.log('Data successfully sent to Airtable:', data);
-                    // Show success message and hide the form
                     showSuccessMessage();
                 })
                 .catch(error => {
                     console.error('Error submitting data to Airtable:', error);
-
-                    // More detailed error handling to identify possible issues
-                    if (error.message.includes('Failed to submit data to Airtable')) {
-                        showError('Submission failed. Double-check that all form fields are filled out correctly and try again.');
-                    } else if (error.message.includes('401')) {
+                    if (error.message.includes('401')) {
                         showError('Unauthorized access. Please check your Airtable API token.');
+                    } else if (error.message.includes('422')) {
+                        showError('Unprocessable entity. Please verify your field types in Airtable.');
                     } else {
                         showError('An error occurred while submitting the form. Please try again later.');
                     }
                 });
+
 
 
             // Only show success if Airtable request succeeds
